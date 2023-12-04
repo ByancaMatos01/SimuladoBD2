@@ -1,0 +1,70 @@
+Create Database TreinoBD
+use TreinoBD
+
+-- Criar tabela Curso
+CREATE TABLE Curso (
+    ID_Curso INT PRIMARY KEY,
+    Nome_Curso VARCHAR(100),
+    Duracao INT  -- assumindo que a duração é em anos
+);
+
+-- Inserir dados na tabela Curso
+INSERT INTO Curso (ID_Curso, Nome_Curso, Duracao) VALUES
+(1, 'Ciência da Computação', 4),
+(2, 'Engenharia Elétrica', 5),
+(3, 'Administração', 3);
+
+-- Criar tabela Aluno
+CREATE TABLE Aluno (
+    ID_Aluno INT PRIMARY KEY,
+    Nome VARCHAR(50),
+    Idade INT,
+    ID_Curso INT,
+    FOREIGN KEY (ID_Curso) REFERENCES Curso(ID_Curso)
+);
+
+-- Inserir dados na tabela Aluno
+INSERT INTO Aluno (ID_Aluno, Nome, Idade, ID_Curso) VALUES
+(1, 'Ana', 19, 1),
+(2, 'Carlos', 22, 2),
+(3, 'Maria', 18, 1),
+(4, 'João', 20, 3),
+(5, 'Julia', 21, 2);
+
+select*from Aluno
+select*from Curso
+
+
+/*Consulta - Quantidade de Alunos por Curso:
+Escreva uma consulta para mostrar o nome do curso e a quantidade de alunos matriculados em cada curso. Ordene os resultados por quantidade de alunos de forma descendente.
+*/
+select c.Nome_Curso as 'Nome do Curso', count(a.ID_curso) as 'Quantidade de alunos matriculados '
+from curso c 
+inner join aluno a
+on c.ID_Curso=a.ID_Curso
+GROUP BY c.Nome_Curso
+order by COUNT(a.ID_Curso) desc
+
+/*
+Consulta - Cursos com Duração Superior a 2 Anos:
+Escreva uma consulta para mostrar o nome do curso e sua duração para cursos com duração superior a 2 anos.
+*/
+SELECT
+  c.Nome_Curso AS 'Nome do Curso',
+  c.Duracao AS 'Duração do Curso (anos)'
+FROM
+  Curso c
+WHERE
+  c.Duracao > 2;
+
+
+/*Consulta - Alunos Menores de 20 Anos:
+Escreva uma consulta para mostrar o nome e a idade de todos os alunos menores de 20 anos.
+*/
+
+select 
+a.nome as 'Nome do aluno',
+a.Idade as 'Idade do aluno'
+from aluno a
+where
+a.Idade< 20
